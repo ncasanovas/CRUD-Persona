@@ -39,11 +39,16 @@ public class PersonaServiceImpl implements PersonaService {
     public static final String NOT_OK_GUARDAR_RELACION_MENSAJE = "Relación no guardada correctamente";
     public static final int NOT_OK_GUARDAR_RELACION_CODIGO = 900;
 
+    public static final String NOT_OK_YA_CREADO_MENSAJE = "La persona con ese documento ya fue creada";
+    public static final int NOT_OK_YA_CREADO_CODIGO = 997;
+
     public static final String NOT_OK_OBTENER_RELACION_MENSAJE = "No se pudo obtener la relación correctamente";
     public static final int NOT_OK_OBTENER_RELACION_CODIGO = 998;
 
     public static final String NOT_OK_MENOR_MENSAJE = "No se creo la persona, es menor de 18 años";
     public static final int NOT_OK_MENOR_CODIGO = 999;
+
+
 
     @Autowired
     private PersonaRepository personaRepository;
@@ -62,8 +67,11 @@ public class PersonaServiceImpl implements PersonaService {
 
 
             if (personaEntity.isPresent()){
-                return ErrorDTO.builder().mensaje(NOT_OK_CREADO_MENSAJE).codigoError(NOT_OK_CREADO_CODIGO).build();
-            } else if (persona.getEdad() >= 18){
+
+                return ErrorDTO.builder().mensaje(NOT_OK_YA_CREADO_MENSAJE).codigoError(NOT_OK_YA_CREADO_CODIGO).build();
+            }
+
+            if (persona.getEdad() >= 18){
 
                 PersonaEntity personaEnt = new PersonaEntity(persona.getNumeroDeDocumento(),
                         persona.getTipoDeDocumento(),
@@ -71,7 +79,7 @@ public class PersonaServiceImpl implements PersonaService {
                         persona.getEdad(),
                         persona.getDatosDeContacto());
                 personaRepository.save(personaEnt);
-            } else if(persona.getNumeroDeDocumento() > 18) {
+            } else {
                 return ErrorDTO.builder().mensaje(NOT_OK_MENOR_MENSAJE).codigoError(NOT_OK_MENOR_CODIGO).build();
 
             }

@@ -6,21 +6,22 @@ import com.ncasanovas.crud.dto.ResponseDTO;
 public interface PersonaService {
 
     ResponseDTO guardarPersona(Persona persona);
-    ResponseDTO getPersona(long numeroDeDocumento);
+
+    ResponseDTO getPersona(int numeroDeDocumento);
 
     ResponseDTO getPersonas();
 
-    ResponseDTO actualizarPersona(long numeroDeDocumento, Persona persona);
+    ResponseDTO actualizarPersona(int numeroDeDocumento, Persona persona);
 
-    ResponseDTO borrarPersona(long numeroDeDocumento);
+    ResponseDTO borrarPersona(int numeroDeDocumento);
 
-    ResponseDTO relacionarPersonasPadre(long nroDoc1, long nroDoc2);
+    ResponseDTO relacionarPersonasPadre(int nroDoc1, int nroDoc2);
 
-    ResponseDTO relacionarPersonasHermano(long nroDoc1, long nroDoc2);
+    ResponseDTO relacionarPersonasHermano(int nroDoc1, int nroDoc2);
 
-    ResponseDTO relacionarPersonasPrimo(long nroDoc1, long nroDoc2);
+    ResponseDTO relacionarPersonasPrimo(int nroDoc1, int nroDoc2);
 
-    ResponseDTO relacionarPersonasTio(long nroDoc1, long nroDoc2);
+    ResponseDTO relacionarPersonasTio(int nroDoc1, int nroDoc2);
 
-    ResponseDTO relaciones(long nroDoc1, long nroDoc2);
+    ResponseDTO relaciones(int nroDoc1, int nroDoc2);
 }

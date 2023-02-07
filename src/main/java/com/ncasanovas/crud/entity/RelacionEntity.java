@@ -1,7 +1,5 @@
 package com.ncasanovas.crud.entity;
 
-import com.ncasanovas.crud.enums.TipoDeDocumento;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,47 +7,38 @@ import javax.persistence.*;
 public class RelacionEntity {
 
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
     @Column(name="numeroDocumento1")
-    private long numeroDeDocumento1;
+    private Integer numeroDeDocumento1;
 
     @Column(name="numeroDocumento2")
-    private long numeroDeDocumento2;
+    private Integer numeroDeDocumento2;
 
     @Column(name="relacion")
 
     private String relacion;
 
-    public RelacionEntity(long numeroDeDocumento1, long numeroDeDocumento2, String relacion) {
+    public RelacionEntity(Integer numeroDeDocumento1, Integer numeroDeDocumento2, String relacion) {
         this.numeroDeDocumento1 = numeroDeDocumento1;
         this.numeroDeDocumento2 = numeroDeDocumento2;
         this.relacion = relacion;
     }
 
-    public long getId() {
-        return id;
+    public RelacionEntity() {
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getNumeroDeDocumento1() {
+    public Integer getNumeroDeDocumento1() {
         return numeroDeDocumento1;
     }
 
-    public void setNumeroDeDocumento1(long numeroDeDocumento1) {
+    public void setNumeroDeDocumento1(Integer numeroDeDocumento1) {
         this.numeroDeDocumento1 = numeroDeDocumento1;
     }
 
-    public long getNumeroDeDocumento2() {
+    public Integer getNumeroDeDocumento2() {
         return numeroDeDocumento2;
     }
 
-    public void setNumeroDeDocumento2(long numeroDeDocumento2) {
+    public void setNumeroDeDocumento2(Integer numeroDeDocumento2) {
         this.numeroDeDocumento2 = numeroDeDocumento2;
     }
 

@@ -1,47 +1,55 @@
 package com.ncasanovas.crud.entity;
 
-import com.ncasanovas.crud.enums.TipoDeDocumento;
+
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "PERSONA")
-public class PersonaEntity {
+@Table(name="PERSONA")
+public class PersonaEntity implements Serializable {
 
     @Id
-    @Column(name="numeroDocumento")
-    private long numeroDeDocumento;
-    @Id
-    @Column(name="tipoDocumento")
-    private TipoDeDocumento tipoDeDocumento;
+    @Column(name="documento")
+    private Integer nroDeDocumento;
 
-    @Id
+    @Column(name="tipo")
+    private String tipoDeDocumento;
+
     @Column(name="pais")
     private String pais;
 
-    @Column(name="contacto")
-    private String datoDeContacto;
+    @Column(name="edad")
+    private Integer edad;
 
-    public PersonaEntity(long numeroDeDocumento, TipoDeDocumento tipoDeDocumento, String pais, String datoDeContacto) {
-        this.numeroDeDocumento = numeroDeDocumento;
+    @Column(name="contacto")
+    private String datosDeContacto;
+
+    public PersonaEntity() {
+    }
+
+    public PersonaEntity(Integer numeroDeDocumento, String tipoDeDocumento, String pais, int edad, String datosDeContacto) {
+        this.nroDeDocumento = numeroDeDocumento;
         this.tipoDeDocumento = tipoDeDocumento;
         this.pais = pais;
-        this.datoDeContacto = datoDeContacto;
+        this.edad = edad;
+        this.datosDeContacto = datosDeContacto;
     }
 
-    public long getNumeroDeDocumento() {
-        return numeroDeDocumento;
+    public Integer getNroDeDocumento() {
+        return nroDeDocumento;
     }
 
-    public void setNumeroDeDocumento(long numeroDeDocumento) {
-        this.numeroDeDocumento = numeroDeDocumento;
+    public void setNroDeDocumento(Integer nroDeDocumento) {
+        this.nroDeDocumento = nroDeDocumento;
     }
 
-    public TipoDeDocumento getTipoDeDocumento() {
+    public String getTipoDeDocumento() {
         return tipoDeDocumento;
     }
 
-    public void setTipoDeDocumento(TipoDeDocumento tipoDeDocumento) {
+    public void setTipoDeDocumento(String tipoDeDocumento) {
         this.tipoDeDocumento = tipoDeDocumento;
     }
 
@@ -53,11 +61,19 @@ public class PersonaEntity {
         this.pais = pais;
     }
 
-    public String getDatoDeContacto() {
-        return datoDeContacto;
+    public Integer getEdad() {
+        return edad;
     }
 
-    public void setDatoDeContacto(String datoDeContacto) {
-        this.datoDeContacto = datoDeContacto;
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getDatosDeContacto() {
+        return datosDeContacto;
+    }
+
+    public void setDatosDeContacto(String datosDeContacto) {
+        this.datosDeContacto = datosDeContacto;
     }
 }

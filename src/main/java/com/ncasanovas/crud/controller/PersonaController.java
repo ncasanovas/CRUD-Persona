@@ -12,6 +12,10 @@ public class PersonaController {
 
     PersonaService personaService;
 
+    public PersonaController(PersonaService personaService) {
+        this.personaService = personaService;
+    }
+
     @RequestMapping(value= "/personas", method = RequestMethod.POST)
     public ResponseEntity<Object> guardarPersona(@RequestBody Persona persona) {
 
@@ -22,7 +26,7 @@ public class PersonaController {
     }
 
     @RequestMapping(value = "/personas/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getPersona(@PathVariable("id") long nroDoc) {
+    public ResponseEntity<Object> getPersona(@PathVariable("id") int nroDoc) {
 
         ResponseDTO responseDTO = personaService.getPersona(nroDoc);
 
@@ -40,7 +44,7 @@ public class PersonaController {
     }
 
     @RequestMapping(value = "/personas/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> actualizarPersona(@PathVariable("id") long nroDoc, @RequestBody Persona persona) {
+    public ResponseEntity<Object> actualizarPersona(@PathVariable("id") int nroDoc, @RequestBody Persona persona) {
 
         ResponseDTO responseDTO = personaService.actualizarPersona(nroDoc, persona);
 
@@ -48,7 +52,8 @@ public class PersonaController {
 
     }
 
-    public ResponseEntity<Object> borrarPersona(@PathVariable("id") long nroDoc) {
+    @RequestMapping(value= "/personas/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> borrarPersona(@PathVariable("id") int nroDoc) {
 
         ResponseDTO responseDTO = personaService.borrarPersona(nroDoc);
 
@@ -56,8 +61,8 @@ public class PersonaController {
     }
 
     @RequestMapping(value= "/personas/{id1}/padre/{id2}", method = RequestMethod.POST)
-    public ResponseEntity<Object> relacionarPersonasPadre(@PathVariable("id1") long nroDoc1,
-                                                     @PathVariable("id2") long nroDoc2) {
+    public ResponseEntity<Object> relacionarPersonasPadre(@PathVariable("id1") int nroDoc1,
+                                                     @PathVariable("id2") int nroDoc2) {
 
         ResponseDTO responseDTO = personaService.relacionarPersonasPadre(nroDoc1, nroDoc2);
 
@@ -66,8 +71,8 @@ public class PersonaController {
     }
 
     @RequestMapping(value= "/personas/{id1}/hermano/{id2}", method = RequestMethod.POST)
-    public ResponseEntity<Object> relacionarPersonasHermano(@PathVariable("id1") long nroDoc1,
-                                                          @PathVariable("id2") long nroDoc2) {
+    public ResponseEntity<Object> relacionarPersonasHermano(@PathVariable("id1") int nroDoc1,
+                                                          @PathVariable("id2") int nroDoc2) {
 
         ResponseDTO responseDTO = personaService.relacionarPersonasHermano(nroDoc1, nroDoc2);
 
@@ -76,8 +81,8 @@ public class PersonaController {
     }
 
     @RequestMapping(value= "/personas/{id1}/primo/{id2}", method = RequestMethod.POST)
-    public ResponseEntity<Object> relacionarPersonasPrimo(@PathVariable("id1") long nroDoc1,
-                                                            @PathVariable("id2") long nroDoc2) {
+    public ResponseEntity<Object> relacionarPersonasPrimo(@PathVariable("id1") int nroDoc1,
+                                                            @PathVariable("id2") int nroDoc2) {
 
         ResponseDTO responseDTO = personaService.relacionarPersonasPrimo(nroDoc1, nroDoc2);
 
@@ -86,8 +91,8 @@ public class PersonaController {
     }
 
     @RequestMapping(value= "/personas/{id1}/tio/{id2}", method = RequestMethod.POST)
-    public ResponseEntity<Object> relacionarPersonasTio(@PathVariable("id1") long nroDoc1,
-                                                            @PathVariable("id2") long nroDoc2) {
+    public ResponseEntity<Object> relacionarPersonasTio(@PathVariable("id1") int nroDoc1,
+                                                            @PathVariable("id2") int nroDoc2) {
 
         ResponseDTO responseDTO = personaService.relacionarPersonasTio(nroDoc1, nroDoc2);
 
@@ -96,8 +101,8 @@ public class PersonaController {
     }
 
     @RequestMapping(value= "/relaciones/{id1}/{id2}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getRelaciones(@PathVariable("id1") long nroDoc1,
-                                                @PathVariable("id2") long nroDoc2) {
+    public ResponseEntity<Object> getRelaciones(@PathVariable("id1") int nroDoc1,
+                                                @PathVariable("id2") int nroDoc2) {
 
         ResponseDTO responseDTO = personaService.relaciones(nroDoc1, nroDoc2);
 

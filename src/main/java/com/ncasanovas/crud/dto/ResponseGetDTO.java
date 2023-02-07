@@ -1,15 +1,21 @@
 package com.ncasanovas.crud.dto;
 
 import com.ncasanovas.crud.entity.PersonaEntity;
-import lombok.Builder;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Optional;
 
-public class ResponseGetDTO extends  ResponseDTO {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResponseGetDTO extends ResponseDTO {
 
     private Optional<PersonaEntity> persona;
 
-    @Builder
+
     public ResponseGetDTO(String mensaje, Optional<PersonaEntity> persona) {
         super(mensaje);
         this.persona = persona;

@@ -40,7 +40,10 @@ public class PersonaServiceImpl implements PersonaService {
     public static final int NOT_OK_GUARDAR_RELACION_CODIGO = 900;
 
     public static final String NOT_OK_OBTENER_RELACION_MENSAJE = "No se pudo obtener la relación correctamente";
-    public static final int NOT_OK_OBTENER_RELACION_CODIGO = 1000;
+    public static final int NOT_OK_OBTENER_RELACION_CODIGO = 998;
+
+    public static final String NOT_OK_MENOR_MENSAJE = "No se creo la persona, es menor de 18 años";
+    public static final int NOT_OK_MENOR_CODIGO = 999;
 
     @Autowired
     private PersonaRepository personaRepository;
@@ -54,18 +57,23 @@ public class PersonaServiceImpl implements PersonaService {
 
         try {
 
-            Optional<PersonaEntity> personaEntity = personaRepository.findById(persona.getNumeroDeDocumento());
 
-            if (persona.getNumeroDeDocumento() < 45000000
-                    && personaEntity.get().getTipoDeDocumento() != persona.getTipoDeDocumento()
-                    && personaEntity.get().getPais().equals(persona.getPais())
-                    && personaEntity.get().getNumeroDeDocumento() != persona.getNumeroDeDocumento()) {
+           Optional<PersonaEntity> personaEntity = personaRepository.findById(persona.getNumeroDeDocumento());
+
+
+            if (personaEntity.isPresent()){
+                return ErrorDTO.builder().mensaje(NOT_OK_CREADO_MENSAJE).codigoError(NOT_OK_CREADO_CODIGO).build();
+            } else if (persona.getEdad() >= 18){
 
                 PersonaEntity personaEnt = new PersonaEntity(persona.getNumeroDeDocumento(),
                         persona.getTipoDeDocumento(),
                         persona.getPais(),
-                        persona.getDatoDeContacto());
+                        persona.getEdad(),
+                        persona.getDatosDeContacto());
                 personaRepository.save(personaEnt);
+            } else if(persona.getNumeroDeDocumento() > 45000000) {
+                return ErrorDTO.builder().mensaje(NOT_OK_MENOR_MENSAJE).codigoError(NOT_OK_MENOR_CODIGO).build();
+
             }
         } catch(Exception e){
             return ErrorDTO.builder().mensaje(NOT_OK_CREADO_MENSAJE).codigoError(NOT_OK_CREADO_CODIGO).build();
@@ -75,7 +83,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO getPersona(long numeroDeDocumento) {
+    public ResponseDTO getPersona(int numeroDeDocumento) {
         Optional<PersonaEntity> persona;
         try {
              persona = personaRepository.findById(numeroDeDocumento);
@@ -99,13 +107,15 @@ public class PersonaServiceImpl implements PersonaService {
         return ResponseGetAllDTO.builder().mensaje(OK_GET_ALL_MENSAJE).personas(personas).build();
     }
 
-    // TODO
+
     @Override
-    public ResponseDTO actualizarPersona(long numeroDeDocumento, Persona persona) {
+    public ResponseDTO actualizarPersona(int numeroDeDocumento, Persona persona) {
+
         PersonaEntity personaEntity = new PersonaEntity(persona.getNumeroDeDocumento(),
                 persona.getTipoDeDocumento(),
                 persona.getPais(),
-                persona.getDatoDeContacto());
+                persona.getEdad(),
+                persona.getDatosDeContacto());
 
         try {
             Optional<PersonaEntity> personaEntity1 = personaRepository.findById(numeroDeDocumento);
@@ -122,7 +132,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO borrarPersona(long numeroDeDocumento) {
+    public ResponseDTO borrarPersona(int numeroDeDocumento) {
 
         try{
             personaRepository.deleteById(numeroDeDocumento);
@@ -133,7 +143,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO relacionarPersonasPadre(long nroDoc1, long nroDoc2) {
+    public ResponseDTO relacionarPersonasPadre(int nroDoc1, int nroDoc2) {
 
         RelacionEntity relacionEntity = new RelacionEntity(nroDoc1, nroDoc2, "PADRE");
 
@@ -147,7 +157,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO relacionarPersonasHermano(long nroDoc1, long nroDoc2) {
+    public ResponseDTO relacionarPersonasHermano(int nroDoc1, int nroDoc2) {
 
 
         RelacionEntity relacionEntity = new RelacionEntity(nroDoc1, nroDoc2, "HERMAN@");
@@ -162,7 +172,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO relacionarPersonasPrimo(long nroDoc1, long nroDoc2) {
+    public ResponseDTO relacionarPersonasPrimo(int nroDoc1, int nroDoc2) {
 
         RelacionEntity relacionEntity = new RelacionEntity(nroDoc1, nroDoc2, "PRIM@");
 
@@ -176,7 +186,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO relacionarPersonasTio(long nroDoc1, long nroDoc2) {
+    public ResponseDTO relacionarPersonasTio(int nroDoc1, int nroDoc2) {
 
         RelacionEntity relacionEntity = new RelacionEntity(nroDoc1, nroDoc2, "TI@");
 
@@ -190,7 +200,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public ResponseDTO relaciones(long nroDoc1, long nroDoc2) {
+    public ResponseDTO relaciones(int nroDoc1, int nroDoc2) {
         Optional<RelacionEntity> relacionEntity;
         try {
            relacionEntity = relacionRepository.findById(nroDoc1);
@@ -200,12 +210,12 @@ public class PersonaServiceImpl implements PersonaService {
             return ErrorDTO.builder().mensaje(NOT_OK_OBTENER_RELACION_MENSAJE).codigoError(NOT_OK_OBTENER_RELACION_CODIGO).build();
         }
 
-        if(relacionEntity.isPresent() && relacionEntity.get().getNumeroDeDocumento2() == nroDoc2) {
-            return ResponseDTO.builder().mensaje(nroDoc1 + " es " + relacionEntity.get().getRelacion() + " de "+ nroDoc2).build();
+       /* if(relacionEntity.isPresent() && relacionEntity.get().getNumeroDeDocumento2() == nroDoc2) {
 
-        }
 
-        return null;
+        }*/
+
+        return ResponseDTO.builder().mensaje(nroDoc1 + " es " + relacionEntity.get().getRelacion() + " de "+ nroDoc2).build();
     }
 
 

@@ -71,7 +71,7 @@ public class PersonaServiceImpl implements PersonaService {
                         persona.getEdad(),
                         persona.getDatosDeContacto());
                 personaRepository.save(personaEnt);
-            } else if(persona.getNumeroDeDocumento() > 45000000) {
+            } else if(persona.getNumeroDeDocumento() > 18) {
                 return ErrorDTO.builder().mensaje(NOT_OK_MENOR_MENSAJE).codigoError(NOT_OK_MENOR_CODIGO).build();
 
             }
